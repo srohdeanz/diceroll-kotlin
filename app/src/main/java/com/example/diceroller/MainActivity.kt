@@ -3,8 +3,8 @@ package com.example.diceroller
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.ImageView
+
 
 /**
  * This activity allows the user to roll a dice and view the result on the screen.
@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
 
         // Set click event listener to rollButton, which calls the rollDice when the button is clicked.
         rollButton.setOnClickListener { rollDice() }
+
+        // Roll dice when the app first starts
+        rollDice()
     }
 
     /**
@@ -27,17 +30,29 @@ class MainActivity : AppCompatActivity() {
      */
     private fun rollDice() {
 
-        // Create new Dice object with 6 sides
+        // Create new Dice object with 6 sides and roll the dice.
         val dice = Dice(6)
-
-        // Call the roll method of dice and save the value to 'diceRoll'
         var diceRoll = dice.roll()
 
-        // Find the TextView and assign it to a value
-        val resultTextView: TextView = findViewById(R.id.textView)
+        // Target the ImageView
+        val diceImage: ImageView = findViewById(R.id.imageView)
 
-        // Save the dice roll to the text of the TextView object. We need to change it to a string first.
-        resultTextView.text = diceRoll.toString()
+        // Determine which image to use for each roll
+        val drawableDiceResource = when(diceRoll) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            else -> R.drawable.dice_6
+        }
+
+        // Update the ImageView with the correct drawable resource ID
+        diceImage.setImageResource(drawableDiceResource)
+
+        // Update the content description of the ImageView
+        diceImage.contentDescription = diceRoll.toString()
+
     }
 }
 
